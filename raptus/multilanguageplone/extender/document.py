@@ -17,6 +17,7 @@ class DocumentExtender(DefaultExtender):
         fields.TextField('text',
                   required=False,
                   searchable=True,
+                  primary=True,
                   storage = AnnotationStorage(migrate=True),
                   default_output_type = 'text/x-html-safe',
                   widget = widgets.RichWidget(

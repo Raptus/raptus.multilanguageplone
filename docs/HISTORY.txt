@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.4 - (Unreleased)
+------------------
+
+* Fixed document, event, newsitem and topic extenders (missing primary field markers)
+
 0.3 - (2010-01-21)
 ------------------
 
