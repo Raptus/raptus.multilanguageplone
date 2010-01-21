@@ -14,9 +14,22 @@ class ImageExtender(DefaultExtender):
     adapts(ATImage)
 
     fields = DefaultExtender.fields + [
+        fields.StringField(
+            name='title',
+            required=False,
+            searchable=True,
+            default='',
+            accessor='Title',
+            widget=widgets.StringWidget(
+                label_msgid='label_title',
+                visible={'view' : 'invisible'},
+                i18n_domain='plone',
+            ),
+        ),
         fields.ImageField('image',
             required=True,
-            languageIndependent=True,
+            primary=True,
+            languageIndependent=False,
             storage = AnnotationStorage(migrate=True),
             swallowResizeExceptions = zconf.swallowImageResizeExceptions.enable,
             pil_quality = zconf.pil_config.quality,

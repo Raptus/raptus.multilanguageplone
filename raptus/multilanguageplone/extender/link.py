@@ -16,6 +16,7 @@ class LinkExtender(DefaultExtender):
         fields.StringField('remoteUrl',
             required=True,
             searchable=True,
+            primary=True,
             default = "http://",
             # either mailto, absolute url or relative url
             validators = (),

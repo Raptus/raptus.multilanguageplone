@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.3 - (2010-01-21)
+------------------
+
+* Fixed file, image and link extenders (missing primary field markers)
+
 0.2 - (2009-12-02)
 ------------------
 
