@@ -34,6 +34,7 @@ class EventExtender(DefaultExtender):
                 label = _(u'label_event_announcement', default=u'Event body text'),
                 rows = 25,
                 allow_file_upload = zconf.ATDocument.allow_document_upload
-            )
+            ),
+            schemata='default',
         ),
     ]

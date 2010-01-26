@@ -25,5 +25,6 @@ class TopicExtender(DefaultExtender):
                             label = _(u'label_body_text', default=u'Body Text'),
                             rows = 25,
                             allow_file_upload = zconf.ATDocument.allow_document_upload),
+                  schemata='default',
         ),
     ]

@@ -22,6 +22,7 @@ class DefaultExtender(object):
                 visible={'view' : 'invisible'},
                 i18n_domain='plone',
             ),
+            schemata='default',
         ),
         fields.LinesField(
             'subject',
@@ -49,6 +50,7 @@ class DefaultExtender(object):
                 description=_(u'help_description',
                               default=u'A short summary of the content.'),
             ),
+            schemata='default',
         ),
         fields.TextField(
             'rights',

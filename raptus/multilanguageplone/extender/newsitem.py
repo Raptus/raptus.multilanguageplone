@@ -25,7 +25,8 @@ class NewsItemExtender(DefaultExtender):
                 label = _(u'label_body_text', u'Body Text'),
                 rows = 25,
                 allow_file_upload = zconf.ATDocument.allow_document_upload
-            )
+            ),
+            schemata='default',
         ),
         fields.ImageField('image',
             required = False,
