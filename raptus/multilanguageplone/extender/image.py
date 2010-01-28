@@ -4,6 +4,7 @@ from Products.Archetypes import PloneMessageFactory as _
 from Products.Archetypes.atapi import AnnotationStorage
 from Products.ATContentTypes.configuration import zconf
 from Products.ATContentTypes.content.image import ATImage
+from Products.ATContentTypes.content.base import ATCTFileContent
 
 from raptus.multilanguagefields import widgets
 import fields
@@ -50,3 +51,31 @@ class ImageExtender(DefaultExtender):
             )
         ),
     ]
+
+# monkeypatch to support access to multilanguage image scales
+def __bobo_traverse__(self, REQUEST, name):
+    """Transparent access to multilanguage image scales
+    """
+    if name.startswith('image'):
+        field = self.getField('image')
+        image = None
+        if name == 'image':
+            image = field.getScale(self)
+        elif '___' in name:
+            name, lang, scalename = name.split('___')
+            if scalename:
+                scalename = scalename[1:]
+                if scalename in field.getAvailableSizes(self):
+                    image = field.getScale(self, scale=scalename, lang=lang)
+            else:
+                image = field.getScale(self, lang=lang)
+        else:
+            scalename = name[len('image_'):]
+            if scalename in field.getAvailableSizes(self):
+                image = field.getScale(self, scale=scalename)
+        if image is not None and not isinstance(image, basestring):
+            # image might be None or '' for empty images
+            return image
+
+    return ATCTFileContent.__bobo_traverse__(self, REQUEST, name)
+ATImage.__bobo_traverse__ = __bobo_traverse__

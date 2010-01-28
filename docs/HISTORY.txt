@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.6 - (2010-01-28)
+------------------
+
+* added support for transparent access to multilanguage image scales
+
 0.5 - (2010-01-26)
 ------------------
 
