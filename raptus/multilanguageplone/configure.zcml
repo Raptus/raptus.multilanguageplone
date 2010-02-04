@@ -18,10 +18,19 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       />
+
+  <!-- import steps -->
+  <genericsetup:importStep
+      name="raptus.multilanguageplone-final"
+      title="MultilanguagePlone import Steps"
+      description="description"
+      handler="raptus.multilanguageplone.setuphandlers.install">
+    <depends name="plone-final"/>
+  </genericsetup:importStep>
       
   <genericsetup:registerProfile
       name="uninstall"
-      title="MultilanguagePlone"
+      title="MultilanguagePlone Uninstall"
       directory="profiles/uninstall"
       description="Uninstalls multilanguage plone"
       provides="Products.GenericSetup.interfaces.EXTENSION"
