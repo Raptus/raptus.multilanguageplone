@@ -11,7 +11,7 @@ from raptus.multilanguageplone.tests import base
 def test_suite():
     return unittest.TestSuite([
 
-        ztc.ZopeDocFileSuite(
+        ztc.FunctionalDocFileSuite(
             'README.txt', package='raptus.multilanguageplone',
             test_class=base.FunctionalTestCase,
             optionflags=doctest.REPORT_ONLY_FIRST_FAILURE |

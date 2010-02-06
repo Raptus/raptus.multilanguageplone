@@ -22,6 +22,7 @@ from Products.PloneTestCase.layer import onsetup
 # not in the Products.*) namespace. For that, see below.
 # All of Plone's products are already set up by PloneTestCase.
 
+
 @onsetup
 def setup_product():
     """Set up the package and its dependencies.
@@ -91,3 +92,7 @@ class FunctionalTestCase(ptc.FunctionalTestCase):
         self.portal.portal_membership.addMember('contributor',
                                                 'secret',
                                                 roles, [])
+        #self.portal.portal_languages.use_cookie_negotiation=1
+        self.portal.portal_languages.use_request_negotiation=1
+        self.portal.portal_languages.always_show_selector=1
+        self.portal.portal_languages.start_neutral=1
