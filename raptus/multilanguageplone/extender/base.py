@@ -18,7 +18,7 @@ class DefaultExtender(object):
             default='',
             accessor='Title',
             widget=widgets.StringWidget(
-                label_msgid='label_title',
+                label = _(u'label_title', default=u'Title'),
                 visible={'view' : 'invisible'},
                 i18n_domain='plone',
             ),
