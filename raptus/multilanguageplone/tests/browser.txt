@@ -1,0 +1,27 @@
+.. -*-doctest-*-
+
+=========================
+raptus.multilanguageplone
+=========================
+
+Set Up
+======
+
+And of course we get the test browser.
+
+    >>> import Products.Five.testbrowser
+    >>> portal_url = portal.absolute_url()
+    >>> browser = Products.Five.testbrowser.Browser()
+    >>> browser.handleErrors = False
+
+Log in as a Manager.
+
+    >>> from Products.PloneTestCase import ptc
+    >>> browser.open(portal.absolute_url())
+    >>> browser.getLink('Log in').click()
+    >>> browser.getControl('Login Name').value = ptc.portal_owner
+    >>> browser.getControl(
+    ...     'Password').value = ptc.default_password
+    >>> browser.getControl('Log in').click()
+
+
