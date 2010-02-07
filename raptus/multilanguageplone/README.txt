@@ -108,6 +108,162 @@ then on portal_url
     >>> browser.addHeader('Accept-Language', 'en-us,en;q=0.7,fr;q=0.5')
     >>> browser.open(portal_url)
     
-TODO ....   
+Create a multilingual News Item
+-------------------------------
+
+Create a News Item with different values for each lang
+    >>> self.portal.invokeFactory('News Item', 'test-newsitem')
+    'test-newsitem'
+    >>> testnewsitem = getattr(self.portal, 'test-newsitem')
+
+MultiLingual Fields are dicts using lang as key
+Edit multilingual title and text
+    >>> multilingualtitle = {'fr' : 'Test news item fr', 'en' : 'Test news item en'}
+    >>> multilingualtext = {'fr' : '<p>__FRENCH_CONTENT__</p>', 'en' : '<p>__ENGLISH_CONTENT__</p>'}
+    >>> testnewsitem.edit( title = multilingualtitle, text= multilingualtext)
+
+Publish test-newsitem
+    >>> wf = getToolByName(self.portal, 'portal_workflow')
+    >>> wf.doActionFor(testnewsitem, 'publish', comment='foo' )
+
+Get testnewsitem title, it must be french
+    >>> testnewsitem.Title()
+    'Test news item fr'
+
+Get testnewsitem content, it must be french
+    >>> testnewsitem.getText()
+    '<p>__FRENCH_CONTENT__</p>'
+
+Create a multilingual Image
+---------------------------
+
+Import dummy that has a dummy image for our tests
+
+   >>> from Products.CMFPlone.tests import dummy
+
+Create an Image with different values for each lang
+    >>> self.portal.invokeFactory('Image', 'test-image', image=dummy.Image())
+    'test-image'
+    >>> testimage = getattr(self.portal, 'test-image')
+
+MultiLingual Fields are dicts using lang as key
+Edit multilingual title
+    >>> multilingualtitle = {'fr' : 'Test image fr', 'en' : 'Test image en'}
+    >>> testimage.edit( title = multilingualtitle)
+
+Get testimage title, it must be french
+    >>> testimage.Title()
+    'Test image fr'
+
+Create a multilingual File
+--------------------------
+
+Create a File with different values for each lang
+    >>> self.portal.invokeFactory('File', 'test-file', file=dummy.File())
+    'test-file'
+    >>> testfile = getattr(self.portal, 'test-file')
+
+MultiLingual Fields are dicts using lang as key
+Edit multilingual title
+    >>> multilingualtitle = {'fr' : 'Test file fr', 'en' : 'Test file en'}
+    >>> testfile.edit( title = multilingualtitle)
+
+Get testfile title, it must be french
+    >>> testfile.Title()
+    'Test file fr'
+
+Create a multilingual Collection
+--------------------------------
+
+Create a Collection with different values for each lang
+    >>> self.portal.invokeFactory('Topic', 'test-topic')
+    'test-topic'
+    >>> testtopic = getattr(self.portal, 'test-topic')
+
+MultiLingual Fields are dicts using lang as key
+Edit multilingual title
+    >>> multilingualtitle = {'fr' : 'Test topic fr', 'en' : 'Test topic en'}
+    >>> testtopic.edit( title = multilingualtitle)
+
+Publish test-topic
+    >>> wf = getToolByName(self.portal, 'portal_workflow')
+    >>> wf.doActionFor(testtopic, 'publish', comment='foo' )
+
+Get testtopic title, it must be french
+    >>> testtopic.Title()
+    'Test topic fr'
+
+Create a multilingual Event
+---------------------------
+
+Create an Event with different values for each lang
+    >>> self.portal.invokeFactory('Event', 'test-event')
+    'test-event'
+    >>> testevent = getattr(self.portal, 'test-event')
+
+MultiLingual Fields are dicts using lang as key
+Edit multilingual title and text
+    >>> multilingualtitle = {'fr' : 'Test event fr', 'en' : 'Test event en'}
+    >>> multilingualtext = {'fr' : '<p>__FRENCH_CONTENT__</p>', 'en' : '<p>__ENGLISH_CONTENT__</p>'}
+    >>> testevent.edit( title = multilingualtitle, text= multilingualtext)
+
+Publish test-event
+    >>> wf = getToolByName(self.portal, 'portal_workflow')
+    >>> wf.doActionFor(testevent, 'publish', comment='foo' )
+
+Get testevent title, it must be french
+    >>> testevent.Title()
+    'Test event fr'
+
+Get testevent content, it must be french
+    >>> testevent.getText()
+    '<p>__FRENCH_CONTENT__</p>'
+
+Create a multilingual Folder
+----------------------------
+
+Create a Folder with different values for each lang
+    >>> self.portal.invokeFactory('Folder', 'test-folder')
+    'test-folder'
+    >>> testfolder = getattr(self.portal, 'test-folder')
+
+MultiLingual Fields are dicts using lang as key
+Edit multilingual title
+    >>> multilingualtitle = {'fr' : 'Test folder fr', 'en' : 'Test folder en'}
+    >>> testfolder.edit( title = multilingualtitle)
+
+Publish test-folder
+    >>> wf = getToolByName(self.portal, 'portal_workflow')
+    >>> wf.doActionFor(testfolder, 'publish', comment='foo' )
+
+Get testfoldertitle, it must be french
+    >>> testfolder.Title()
+    'Test folder fr'
+
+Create a multilingual Link
+--------------------------
+
+Create a Link with different values for each lang
+    >>> self.portal.invokeFactory('Link', 'test-link')
+    'test-link'
+    >>> testlink = getattr(self.portal, 'test-link')
+
+MultiLingual Fields are dicts using lang as key
+Edit multilingual title and text
+    >>> multilingualtitle = {'fr' : 'Test link fr', 'en' : 'Test link en'}
+    >>> multilinguallink = {'fr' : 'http://www.plone.fr', 'en' : 'http://www.plone.com'}
+    >>> testlink.edit( title = multilingualtitle, remote_url= multilinguallink)
+
+Publish test-link
+    >>> wf = getToolByName(self.portal, 'portal_workflow')
+    >>> wf.doActionFor(testlink, 'publish', comment='foo' )
+
+Get testlink title, it must be french
+    >>> testlink.Title()
+    'Test link fr'
+
+Get testlink content, it must be french
+    >>> testlink.getRemoteUrl()
+    'http://www.plone.fr'
 
 
