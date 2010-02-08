@@ -33,13 +33,6 @@ def test_suite():
         )
     )
 
-    install_suite = ztc.FunctionalDocFileSuite(
-        'install.txt',
-        'browser.txt',
-        test_class=ptc.PloneTestCase)
-    install_suite.layer = install_layer
-    suite.addTest(install_suite)
-
     return suite
 
 if __name__ == '__main__':
