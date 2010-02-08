@@ -3,8 +3,6 @@ import os
 
 version = '0.6'
 
-tests_require = ['collective.testcaselayer']
-
 setup(name='raptus.multilanguageplone',
       version=version,
       description="adding multilanguage support to default plone content types",
@@ -30,8 +28,6 @@ setup(name='raptus.multilanguageplone',
           'archetypes.schemaextender',
           # -*- Extra requirements: -*-
       ],
-      tests_require=tests_require,
-      extras_require={'tests': tests_require},
       entry_points="""
       # -*- Entry points: -*-
       """,
