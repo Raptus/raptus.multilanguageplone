@@ -38,7 +38,6 @@ def setup_product():
 
     fiveconfigure.debug_mode = True
     import raptus.multilanguageplone
-    zcml.load_config('configure.zcml', raptus.multilanguagefields)
     zcml.load_config('configure.zcml', raptus.multilanguageplone)
     fiveconfigure.debug_mode = False
 
