@@ -1,8 +1,6 @@
 from zope.interface import implements
-from zope.app.component.hooks import getSite
 from archetypes.schemaextender.interfaces import ISchemaExtender
 from Products.Archetypes import PloneMessageFactory as _
-from Products.CMFCore.utils import getToolByName
 
 from raptus.multilanguagefields import widgets
 import fields
@@ -18,7 +16,7 @@ class DefaultExtender(object):
             default='',
             accessor='Title',
             widget=widgets.StringWidget(
-                label_msgid='label_title',
+                label = _(u'label_title', default=u'Title'),
                 visible={'view' : 'invisible'},
                 i18n_domain='plone',
             ),
