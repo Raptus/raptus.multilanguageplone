@@ -12,6 +12,7 @@ setup(name='raptus.multilanguageplone',
       classifiers=[
         "Programming Language :: Python",
         "Topic :: Software Development :: Libraries :: Python Modules",
+        "License :: OSI Approved :: GNU General Public License (GPL)",
         ],
       keywords='',
       author='Raptus AG',
