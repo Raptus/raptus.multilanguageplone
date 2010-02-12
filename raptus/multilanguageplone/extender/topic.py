@@ -19,7 +19,9 @@ class TopicExtender(DefaultExtender):
                   searchable=True,
 # we got an error with this attribute on Plone 3.3
 # Tried to add 'text___fr___' as primary field but <Products.Archetypes.Schema.Schema object at 0x0AE1BBD0> already has the primary field 'text'
-#                  primary=True,
+#
+# we need the primary markers to have the getContentType method working
+                  primary=True,
                   storage = AnnotationStorage(migrate=True),
                   default_output_type = 'text/x-html-safe',
                   widget = widgets.RichWidget(
