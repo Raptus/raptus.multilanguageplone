@@ -5,20 +5,11 @@ from Testing import ZopeTestCase
 from zope.testing import doctestunit
 from zope.component import testing, eventtesting
 
-from collective.testcaselayer import ptc as ptc_tcl
 from Testing import ZopeTestCase as ztc
 from Products.PloneTestCase import ptc
 
 from raptus.multilanguageplone.tests import base
 
-class InstallLayer(ptc_tcl.BasePTCLayer):
-    """Install raptus.multilanguageplone"""
-
-    def afterSetUp(self):
-        ZopeTestCase.installPackage('raptus.multilanguageplone')
-        self.addProfile('raptus.multilanguageplone:default')
-
-install_layer = InstallLayer([ptc_tcl.ptc_layer])
 
 def test_suite():
     suite = unittest.TestSuite()
