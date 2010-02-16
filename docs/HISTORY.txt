@@ -1,18 +1,14 @@
 Changelog
 =========
 
-SVN UNRELEASE
--------------
+0.7 (2010-02-16)
+----------------
 
 * readded primary markers which are needed for multilanguage image support and the getContentType method for rich text fields
   added __bobo_traverse__ patch for newsitems to support transparent acces to multilanguage image scales
-
 * Added license information
-
 * Merging branch aws_evols into trunk
-
 * fix whitespace
-
 * - added minimal framework for doctests
   - added a simple doctest (Readme.txt)
   - added genericSetup importSteps to be more plone 3.1+ aware (replace import_steps.xml)
