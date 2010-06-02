@@ -20,3 +20,10 @@ class FileField(ExtensionField, fields.FileField):
 class ImageField(ExtensionField, fields.ImageField):
     """ FileField
     """
+
+try:
+    class BlobField(ExtensionField, fields.BlobField):
+        """ BlobField
+        """
+except:
+    pass

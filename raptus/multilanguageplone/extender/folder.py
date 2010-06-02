@@ -1,5 +1,5 @@
 from zope.component import adapts
-from Products.ATContentTypes.content.folder import ATFolder
+from plone.app.folder.folder import ATFolder
 
 from base import DefaultExtender
 

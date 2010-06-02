@@ -55,8 +55,8 @@ Get testdoc title, it must be french
     'Test doc fr'
 
 Get testdoc content, it must be french
-    >>> testdoc.getText()
-    '<p>__FRENCH_CONTENT__</p>'
+    >>> '__FRENCH_CONTENT__' in testdoc.getText()
+    True
 
 Consultation tests in english
 -----------------------------
@@ -77,7 +77,7 @@ must contain the english title and english content
     HTTPResponse(...
     ...lang="en"...
     ...Test doc en...
-    ...<p>__ENGLISH_CONTENT__</p>...
+    ...__ENGLISH_CONTENT__...
     
 
 Edition tests with testbrowser
@@ -131,8 +131,8 @@ Get testnewsitem title, it must be french
     'Test news item fr'
 
 Get testnewsitem content, it must be french
-    >>> testnewsitem.getText()
-    '<p>__FRENCH_CONTENT__</p>'
+    >>> '__FRENCH_CONTENT__' in testnewsitem.getText()
+    True
 
 Create a multilingual Image
 ---------------------------
@@ -216,8 +216,8 @@ Get testevent title, it must be french
     'Test event fr'
 
 Get testevent content, it must be french
-    >>> testevent.getText()
-    '<p>__FRENCH_CONTENT__</p>'
+    >>> '__FRENCH_CONTENT__' in testevent.getText()
+    True
 
 Create a multilingual Folder
 ----------------------------

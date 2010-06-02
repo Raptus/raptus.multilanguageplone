@@ -1,3 +1,5 @@
+from archetypes.schemaextender.interfaces import ISchemaExtender
+
 from raptus.multilanguageplone.extender import folder, document, event, file, image, link, newsitem, topic
 
 from Products.CMFCore.utils import getToolByName
@@ -10,6 +12,18 @@ extenders = [folder.FolderExtender,
              link.LinkExtender,
              newsitem.NewsItemExtender,
              topic.TopicExtender,]
+
+try:
+    from raptus.multilanguageplone.extender.file import BlobFileExtender, BlobFileModifier
+    extenders.append(BlobFileExtender)
+    # the modifier is not working yet (no multilanguage blob files for now)
+    # extenders.append(BlobFileModifier)
+    from raptus.multilanguageplone.extender.image import BlobImageExtender, BlobImageModifier
+    extenders.append(BlobImageExtender)
+    # the modifier is not working yet (no multilanguage blob images for now)
+    # extenders.append(BlobImageModifier)
+except:
+    pass
 
 indexes = ('SearchableText', 'Subject', 'Title', 'Description', 'sortable_title',)
 
@@ -26,7 +40,7 @@ def install(context):
     sm = portal.getSiteManager()
     for extender in extenders:
         sm.registerAdapter(extender, name='Multilanguage%s' % extender.__name__)
-        
+    
     reindex(portal)
     
 def uninstall(context):
@@ -34,7 +48,10 @@ def uninstall(context):
     
     sm = portal.getSiteManager()
     for extender in extenders:
-        sm.unregisterAdapter(extender, name='Multilanguage%s' % extender.__name__)
+        try:
+            sm.unregisterAdapter(extender, name='Multilanguage%s' % extender.__name__)
+        except:
+            pass
         
     reindex(portal)
     

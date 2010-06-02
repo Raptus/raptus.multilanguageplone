@@ -3,6 +3,7 @@ from Products.Archetypes import PloneMessageFactory as _
 
 from Products.Archetypes.atapi import AnnotationStorage
 from Products.ATContentTypes.configuration import zconf
+from Products.validation import V_REQUIRED
 from Products.ATContentTypes.content.image import ATImage
 from Products.ATContentTypes.content.base import ATCTFileContent
 
@@ -11,10 +12,7 @@ import fields
 
 from base import DefaultExtender
 
-class ImageExtender(DefaultExtender):
-    adapts(ATImage)
-
-    fields = DefaultExtender.fields + [
+title_field = [
         fields.StringField(
             name='title',
             required=False,
@@ -26,7 +24,12 @@ class ImageExtender(DefaultExtender):
                 visible={'view' : 'invisible'},
                 i18n_domain='plone',
             ),
-        ),
+        ),]
+
+class ImageExtender(DefaultExtender):
+    adapts(ATImage)
+
+    fields = DefaultExtender.fields + title_field + [
         fields.ImageField('image',
             required=True,
 # we got an error with this attribute on Plone 3.3
@@ -83,3 +86,58 @@ def __bobo_traverse__(self, REQUEST, name):
 
     return ATCTFileContent.__bobo_traverse__(self, REQUEST, name)
 ATImage.__bobo_traverse__ = __bobo_traverse__
+
+try:
+    from zope.interface import implements
+    from plone.app.blob.interfaces import IATBlobImage
+    from plone.app.blob.mixins import ImageMixin
+    from archetypes.schemaextender.interfaces import ISchemaModifier
+    
+    class BlobImageExtender(DefaultExtender):
+        adapts(IATBlobImage)
+
+        fields = DefaultExtender.fields + title_field
+        
+    class BlobImageModifier(object):
+        adapts(IATBlobImage)
+        implements(ISchemaModifier)
+        
+        field = fields.BlobField('image',
+                    required = True,
+                    primary = True,
+                    accessor = 'getImage',
+                    mutator = 'setImage',
+                    languageIndependent = True,
+                    storage = AnnotationStorage(migrate=True),
+                    swallowResizeExceptions = zconf.swallowImageResizeExceptions.enable,
+                    pil_quality = zconf.pil_config.quality,
+                    pil_resize_algo = zconf.pil_config.resize_algo,
+                    max_size = zconf.ATImage.max_image_dimension,
+                    validators = (('isNonEmptyFile', V_REQUIRED),
+                                  ('checkImageMaxSize', V_REQUIRED)),
+                    widget = widgets.FileWidget(
+                        description = '',
+                        label=_(u'label_image', default=u'Image'),
+                        show_content_type = False,
+                    )
+                )
+        
+        def __init__(self, context):
+            self.context = context
+            
+        def fiddle(self, schema):
+            schema['image'] = self.field
+            return schema
+        
+    def setImage(self, value, **kw):
+        if kw.has_key('schema'):
+            schema = kw['schema']
+        else:
+            schema = self.Schema()
+            kw['schema'] = schema
+        return schema['image'].set(self, value, **kw)
+    ImageMixin.setImage = setImage
+    from plone.app.blob.content import ATBlob
+    ATBlob.__bobo_traverse__ = __bobo_traverse__
+except:
+    pass

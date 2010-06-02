@@ -1,5 +1,6 @@
 from zope.component import adapts
 from Products.Archetypes import PloneMessageFactory as _
+from Products.validation import V_REQUIRED
 
 from Products.Archetypes.atapi import AnnotationStorage
 from Products.ATContentTypes.content.file import ATFile
@@ -9,10 +10,7 @@ import fields
 
 from base import DefaultExtender
 
-class FileExtender(DefaultExtender):
-    adapts(ATFile)
-
-    fields = DefaultExtender.fields + [
+title_field = [
         fields.StringField(
             name='title',
             required=False,
@@ -24,7 +22,12 @@ class FileExtender(DefaultExtender):
                 visible={'view' : 'invisible'},
                 i18n_domain='plone',
             ),
-        ),
+        ),]
+
+class FileExtender(DefaultExtender):
+    adapts(ATFile)
+
+    fields = DefaultExtender.fields + title_field + [
         fields.FileField('file',
             required=True,
 # we got an error with this attribute on Plone 3.3
@@ -42,3 +45,54 @@ class FileExtender(DefaultExtender):
             )
         ),
     ]
+
+try:
+    from zope.interface import implements
+    from plone.app.blob.interfaces import IATBlobFile
+    from plone.app.blob.content import ATBlob
+    from archetypes.schemaextender.interfaces import ISchemaModifier
+    
+    class BlobFileExtender(DefaultExtender):
+        adapts(IATBlobFile)
+    
+        fields = DefaultExtender.fields + title_field
+
+    class BlobFileModifier(object):
+        adapts(IATBlobFile)
+        implements(ISchemaModifier)
+        
+        field = fields.BlobField('file',
+                    required = True,
+                    primary = True,
+                    searchable = True,
+                    accessor = 'getFile',
+                    mutator = 'setFile',
+                    index_method = 'getIndexValue',
+                    languageIndependent = True,
+                    storage = AnnotationStorage(migrate=True),
+                    validators = (('isNonEmptyFile', V_REQUIRED),
+                                  ('checkFileMaxSize', V_REQUIRED)),
+                    widget = widgets.FileWidget(
+                        description = '',
+                        label=_(u'label_file', default=u'File'),
+                        show_content_type = False,
+                    )
+                )
+        
+        def __init__(self, context):
+            self.context = context
+            
+        def fiddle(self, schema):
+            schema['file'] = self.field
+            return schema
+
+    def setFile(self, value, **kw):
+        if kw.has_key('schema'):
+            schema = kw['schema']
+        else:
+            schema = self.Schema()
+            kw['schema'] = schema
+        return schema['file'].set(self, value, **kw)
+    ATBlob.setFile = setFile
+except:
+    pass
