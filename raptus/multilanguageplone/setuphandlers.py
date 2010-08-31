@@ -44,6 +44,10 @@ def install(context):
     reindex(portal)
     
 def uninstall(context):
+    if context.readDataFile('raptus.multilanguageplone_install.txt') is None and \
+       context.readDataFile('raptus.multilanguageplone_uninstall.txt') is None:
+        return
+    
     portal = context.getSite()
     
     sm = portal.getSiteManager()
