@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.7'
+version = '1.0b1'
 
 setup(name='raptus.multilanguageplone',
       version=version,
