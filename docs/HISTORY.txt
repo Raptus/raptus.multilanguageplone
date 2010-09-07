@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.0b1 (2010-08-07)
+------------------
+
+* fixed uninstall profile to check install context
+
 0.7 (2010-02-16)
 ----------------
 
