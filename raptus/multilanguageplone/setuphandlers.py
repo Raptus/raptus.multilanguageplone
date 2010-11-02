@@ -16,13 +16,11 @@ extenders = [folder.FolderExtender,
 try:
     from raptus.multilanguageplone.extender.file import BlobFileExtender, BlobFileModifier
     extenders.append(BlobFileExtender)
-    # the modifier is not working yet (no multilanguage blob files for now)
-    # extenders.append(BlobFileModifier)
+    extenders.append(BlobFileModifier)
     from raptus.multilanguageplone.extender.image import BlobImageExtender, BlobImageModifier
     extenders.append(BlobImageExtender)
-    # the modifier is not working yet (no multilanguage blob images for now)
-    # extenders.append(BlobImageModifier)
-except:
+    extenders.append(BlobImageModifier)
+except ImportError:
     pass
 
 indexes = ('SearchableText', 'Subject', 'Title', 'Description', 'sortable_title',)

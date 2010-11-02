@@ -22,8 +22,12 @@ class ImageField(ExtensionField, fields.ImageField):
     """
 
 try:
-    class BlobField(ExtensionField, fields.BlobField):
-        """ BlobField
+    class BlobFileField(ExtensionField, fields.BlobFileField):
+        """ BlobFileField
+        """
+    
+    class BlobImageField(ExtensionField, fields.BlobImageField):
+        """ BlobImageField
         """
 except:
     pass

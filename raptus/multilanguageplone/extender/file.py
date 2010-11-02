@@ -49,7 +49,6 @@ class FileExtender(DefaultExtender):
 try:
     from zope.interface import implements
     from plone.app.blob.interfaces import IATBlobFile
-    from plone.app.blob.content import ATBlob
     from archetypes.schemaextender.interfaces import ISchemaModifier
     
     class BlobFileExtender(DefaultExtender):
@@ -61,7 +60,7 @@ try:
         adapts(IATBlobFile)
         implements(ISchemaModifier)
         
-        field = fields.BlobField('file',
+        field = fields.BlobFileField('file',
                     required = True,
                     primary = True,
                     searchable = True,
@@ -85,14 +84,5 @@ try:
         def fiddle(self, schema):
             schema['file'] = self.field
             return schema
-
-    def setFile(self, value, **kw):
-        if kw.has_key('schema'):
-            schema = kw['schema']
-        else:
-            schema = self.Schema()
-            kw['schema'] = schema
-        return schema['file'].set(self, value, **kw)
-    ATBlob.setFile = setFile
 except:
     pass

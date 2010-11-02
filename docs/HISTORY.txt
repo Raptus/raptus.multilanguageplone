@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.0b3 (2010-11-03)
+------------------
+
+* enabled multilanguage blob files and images
+* moved patching of file and image to raptus.multilanguagefields
+
 1.0b1 (2010-08-07)
 ------------------
 

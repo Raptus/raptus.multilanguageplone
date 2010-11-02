@@ -66,6 +66,6 @@ class DefaultExtender(object):
 
     def __init__(self, context):
          self.context = context
-         
+
     def getFields(self):
         return self.fields

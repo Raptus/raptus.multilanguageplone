@@ -5,7 +5,6 @@ from Products.Archetypes.atapi import AnnotationStorage
 from Products.ATContentTypes.configuration import zconf
 from Products.validation import V_REQUIRED
 from Products.ATContentTypes.content.image import ATImage
-from Products.ATContentTypes.content.base import ATCTFileContent
 
 from raptus.multilanguagefields import widgets
 import fields
@@ -59,39 +58,11 @@ class ImageExtender(DefaultExtender):
         ),
     ]
 
-# monkeypatch to support access to multilanguage image scales
-def __bobo_traverse__(self, REQUEST, name):
-    """Transparent access to multilanguage image scales
-    """
-    if name.startswith('image'):
-        field = self.getField('image')
-        image = None
-        if name == 'image':
-            image = field.getScale(self)
-        elif '___' in name:
-            name, lang, scalename = name.split('___')
-            if scalename:
-                scalename = scalename[1:]
-                if scalename in field.getAvailableSizes(self):
-                    image = field.getScale(self, scale=scalename, lang=lang)
-            else:
-                image = field.getScale(self, lang=lang)
-        else:
-            scalename = name[len('image_'):]
-            if scalename in field.getAvailableSizes(self):
-                image = field.getScale(self, scale=scalename)
-        if image is not None and not isinstance(image, basestring):
-            # image might be None or '' for empty images
-            return image
-
-    return ATCTFileContent.__bobo_traverse__(self, REQUEST, name)
-ATImage.__bobo_traverse__ = __bobo_traverse__
-
 try:
     from zope.interface import implements
     from plone.app.blob.interfaces import IATBlobImage
-    from plone.app.blob.mixins import ImageMixin
     from archetypes.schemaextender.interfaces import ISchemaModifier
+    from plone.app.imaging.interfaces import IImageScaleHandler
     
     class BlobImageExtender(DefaultExtender):
         adapts(IATBlobImage)
@@ -102,7 +73,7 @@ try:
         adapts(IATBlobImage)
         implements(ISchemaModifier)
         
-        field = fields.BlobField('image',
+        field = fields.BlobImageField('image',
                     required = True,
                     primary = True,
                     accessor = 'getImage',
@@ -115,7 +86,7 @@ try:
                     max_size = zconf.ATImage.max_image_dimension,
                     validators = (('isNonEmptyFile', V_REQUIRED),
                                   ('checkImageMaxSize', V_REQUIRED)),
-                    widget = widgets.FileWidget(
+                    widget = widgets.ImageWidget(
                         description = '',
                         label=_(u'label_image', default=u'Image'),
                         show_content_type = False,
@@ -128,16 +99,5 @@ try:
         def fiddle(self, schema):
             schema['image'] = self.field
             return schema
-        
-    def setImage(self, value, **kw):
-        if kw.has_key('schema'):
-            schema = kw['schema']
-        else:
-            schema = self.Schema()
-            kw['schema'] = schema
-        return schema['image'].set(self, value, **kw)
-    ImageMixin.setImage = setImage
-    from plone.app.blob.content import ATBlob
-    ATBlob.__bobo_traverse__ = __bobo_traverse__
-except:
+except ImportError:
     pass
