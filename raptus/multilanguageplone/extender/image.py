@@ -9,7 +9,7 @@ from Products.ATContentTypes.content.image import ATImage
 from raptus.multilanguagefields import widgets
 import fields
 
-from base import DefaultExtender
+from base import DefaultExtender, IMAGE_SIZES
 
 title_field = [
         fields.StringField(
@@ -42,14 +42,7 @@ class ImageExtender(DefaultExtender):
             pil_quality = zconf.pil_config.quality,
             pil_resize_algo = zconf.pil_config.resize_algo,
             max_size = zconf.ATImage.max_image_dimension,
-            sizes= {'large'   : (768, 768),
-                    'preview' : (400, 400),
-                    'mini'    : (200, 200),
-                    'thumb'   : (128, 128),
-                    'tile'    :  (64, 64),
-                    'icon'    :  (32, 32),
-                    'listing' :  (16, 16),
-                    },
+            sizes=IMAGE_SIZES,
             widget = widgets.ImageWidget(
                 description = '',
                 label= _(u'label_image', default=u'Image'),

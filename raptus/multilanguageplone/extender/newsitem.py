@@ -9,7 +9,7 @@ from Products.ATContentTypes.content.newsitem import ATNewsItem
 from raptus.multilanguagefields import widgets
 import fields
 
-from base import DefaultExtender
+from base import DefaultExtender, IMAGE_SIZES
 
 class NewsItemExtender(DefaultExtender):
     adapts(ATNewsItem)
@@ -38,14 +38,7 @@ class NewsItemExtender(DefaultExtender):
             storage = AnnotationStorage(migrate=True),
             languageIndependent = True,
             max_size = zconf.ATNewsItem.max_image_dimension,
-            sizes= {'large'   : (768, 768),
-                    'preview' : (400, 400),
-                    'mini'    : (200, 200),
-                    'thumb'   : (128, 128),
-                    'tile'    :  (64, 64),
-                    'icon'    :  (32, 32),
-                    'listing' :  (16, 16),
-                   },
+            sizes=IMAGE_SIZES,
             widget = widgets.ImageWidget(
                 description = _(u'help_news_image', default=u'Will be shown in the news listing, and in the news item itself. Image will be scaled to a sensible size.'),
                 label= _(u'label_news_image', default=u'Image'),

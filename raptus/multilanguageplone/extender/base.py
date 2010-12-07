@@ -5,6 +5,20 @@ from Products.Archetypes import PloneMessageFactory as _
 from raptus.multilanguagefields import widgets
 import fields
 
+IMAGE_SIZES = {'large'   : (768, 768),
+               'preview' : (400, 400),
+               'mini'    : (200, 200),
+               'thumb'   : (128, 128),
+               'tile'    :  (64, 64),
+               'icon'    :  (32, 32),
+               'listing' :  (16, 16),
+                }
+try: # remove sizes if plone.app.imaging is available
+    import plone.app.imaging
+    IMAGE_SIZES = None
+except ImportError:
+    pass
+
 class DefaultExtender(object):
     implements(ISchemaExtender)
 

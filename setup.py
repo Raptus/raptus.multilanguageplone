@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0b3'
+version = '1.0b4'
 
 setup(name='raptus.multilanguageplone',
       version=version,
@@ -16,7 +16,7 @@ setup(name='raptus.multilanguageplone',
         ],
       keywords='',
       author='Raptus AG',
-      author_email='skaeser@raptus.com',
+      author_email='dev@raptus.com',
       url='http://plone.org/products/raptus.multilanguageplone',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
