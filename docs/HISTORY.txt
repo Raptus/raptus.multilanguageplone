@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.0b6 (2011-11-29)
+------------------
+
+* improved setuphandler to only add and reindex indexes if not yet present
+
 1.0b5 (2011-05-30)
 ------------------
 
