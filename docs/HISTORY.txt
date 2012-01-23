@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.0b7 (2012-01-23)
+------------------
+
+* fixed fulltextsearch on no blobed binary files.
+
 1.0b6 (2011-11-29)
 ------------------
 

@@ -16,6 +16,9 @@ class TextField(ExtensionField, fields.TextField):
 class FileField(ExtensionField, fields.FileField):
     """ FileField
     """
+    
+    def getIndexAccessor(self, instance):
+        return lambda: self.getIndexable(instance)
 
 class ImageField(ExtensionField, fields.ImageField):
     """ FileField
