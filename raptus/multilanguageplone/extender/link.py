@@ -1,3 +1,6 @@
+
+from urllib import quote
+
 from zope.component import adapts
 from Products.Archetypes import PloneMessageFactory as _
 
@@ -26,3 +29,18 @@ class LinkExtender(DefaultExtender):
             )
         ),
     ]
+
+# patch getRemoteUrl of ATLink to support language aware catalog metadata
+
+def __new_getRemoteUrl(self, **kwargs):
+    """Sanitize output
+    """
+    value = self.Schema()['remoteUrl'].get(self, **kwargs)
+    if not value: value = '' # ensure we have a string
+    if isinstance(value, dict):
+        for k, v in value.items():
+            value[k] = quote(v, safe='?$#@/:=+;$,&%')
+        return value
+    return quote(value, safe='?$#@/:=+;$,&%')
+
+ATLink.getRemoteUrl = __new_getRemoteUrl

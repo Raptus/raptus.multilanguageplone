@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.1a1 (unreleased)
+----------------
+
+* fixed language aware getRemoteUrl metadata by patching getter on ATLink
+
 1.0 (2012-01-23)
 ----------------
 
