@@ -4,7 +4,7 @@ Changelog
 1.1a2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+* fixed language aware sortable_title index
 
 
 1.1a1 (2013-11-20)

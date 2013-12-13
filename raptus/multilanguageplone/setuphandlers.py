@@ -48,13 +48,17 @@ def install(context):
     for id, new, new_field_name, orig, orig_field_name in indexes:
         if id in catalog.indexes():
             index = catalog._catalog.getIndex(id)
-            if not index.__class__.__name__ == new:
+            if (not index.__class__.__name__ == new or
+                (id == 'sortable_title' and
+                 not index.indexed_attrs == [new_field_name])):
                 catalog.delIndex(id)
         if not id in catalog.indexes():
             extra = _extra()
             if new == 'MultilanguageZCTextIndex':
                 extra = text_extra
             setattr(extra, 'field_name', new_field_name)
+            if not id == new_field_name:
+                setattr(extra, 'indexed_attrs', new_field_name)
             catalog.addIndex(id, new, extra)
             catalog.reindexIndex(id, portal.REQUEST)
 
