@@ -4,7 +4,7 @@ Changelog
 1.1a3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- added content type related attributes to fields
 
 
 1.1a2 (2013-12-13)

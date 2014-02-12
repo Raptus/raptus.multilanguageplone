@@ -24,6 +24,7 @@ title_field = [
             ),
         ),]
 
+
 class FileExtender(DefaultExtender):
     adapts(ATFile)
 
@@ -50,16 +51,18 @@ try:
     from zope.interface import implements
     from plone.app.blob.interfaces import IATBlobFile
     from archetypes.schemaextender.interfaces import ISchemaModifier
-    
+
+
     class BlobFileExtender(DefaultExtender):
         adapts(IATBlobFile)
-    
+
         fields = DefaultExtender.fields + title_field
+
 
     class BlobFileModifier(object):
         adapts(IATBlobFile)
         implements(ISchemaModifier)
-        
+
         field = fields.BlobFileField('file',
                     required = True,
                     primary = True,
@@ -69,6 +72,7 @@ try:
                     index_method = 'getIndexValue',
                     languageIndependent = True,
                     storage = AnnotationStorage(migrate=True),
+                    default_content_type = 'application/octet-stream',
                     validators = (('isNonEmptyFile', V_REQUIRED),
                                   ('checkFileMaxSize', V_REQUIRED)),
                     widget = widgets.FileWidget(
@@ -77,12 +81,13 @@ try:
                         show_content_type = False,
                     )
                 )
-        
+
         def __init__(self, context):
             self.context = context
-            
+
         def fiddle(self, schema):
             schema['file'] = self.field
             return schema
+
 except:
     pass

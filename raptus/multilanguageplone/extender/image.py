@@ -25,6 +25,7 @@ title_field = [
             ),
         ),]
 
+
 class ImageExtender(DefaultExtender):
     adapts(ATImage)
 
@@ -55,28 +56,32 @@ try:
     from zope.interface import implements
     from plone.app.blob.interfaces import IATBlobImage
     from archetypes.schemaextender.interfaces import ISchemaModifier
-    from plone.app.imaging.interfaces import IImageScaleHandler
-    
+
+
     class BlobImageExtender(DefaultExtender):
         adapts(IATBlobImage)
 
         fields = DefaultExtender.fields + title_field
-        
+
+
     class BlobImageModifier(object):
         adapts(IATBlobImage)
         implements(ISchemaModifier)
-        
+
         field = fields.BlobImageField('image',
                     required = True,
                     primary = True,
                     accessor = 'getImage',
                     mutator = 'setImage',
+                    sizes = None,
                     languageIndependent = True,
                     storage = AnnotationStorage(migrate=True),
                     swallowResizeExceptions = zconf.swallowImageResizeExceptions.enable,
                     pil_quality = zconf.pil_config.quality,
                     pil_resize_algo = zconf.pil_config.resize_algo,
                     max_size = zconf.ATImage.max_image_dimension,
+                    default_content_type = 'image/png',
+                    allowable_content_types = ('image/gif', 'image/jpeg', 'image/png'),
                     validators = (('isNonEmptyFile', V_REQUIRED),
                                   ('checkImageMaxSize', V_REQUIRED)),
                     widget = widgets.ImageWidget(
@@ -85,12 +90,13 @@ try:
                         show_content_type = False,
                     )
                 )
-        
+
         def __init__(self, context):
             self.context = context
-            
+
         def fiddle(self, schema):
             schema['image'] = self.field
             return schema
+
 except ImportError:
     pass
