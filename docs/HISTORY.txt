@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1a3 (unreleased)
+1.1a3 (2014-02-12)
 ------------------
 
 - added content type related attributes to fields
